@@ -2,8 +2,12 @@ default:
 	 @echo usage make 'reinstall|clobber|clean'
 	 @grep ':$$' Makefile
 
-reinstall:
+update reinstall: uninstall install
+
+uninstall:
 	raco pkg remove racket-hacks
+
+install:
 	raco pkg install
 
 clean: 
