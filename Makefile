@@ -5,14 +5,16 @@ default:
 update reinstall: uninstall install
 
 uninstall:
-	raco pkg remove racket-hacks
+	raco pkg remove -i racket-hacks
 
 install:
-	raco pkg install
+	su -c  "raco pkg install -i"
+	chgrp -R conman .
+	find . -type d -exec chmod g+s {} +
 
 clean: 
 	@echo BACKUP
-	@find  . | cpio -W none -vdm -p /var/tmp/Attic/racket-hacks
+	@find  . | cpio --quiet -W none -dm -p /var/tmp/Attic/racket-hacks 2>&1 |grep -v newer || true 
 	@echo DEL
 	@find  . -name "*~" -delete -print
 
