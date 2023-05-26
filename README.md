@@ -16,5 +16,4 @@ String-related functions
 
 ## System
 ./system/time.rkt
-./system/unix/tools.rkt
 ./system/unix/mount.rkt
