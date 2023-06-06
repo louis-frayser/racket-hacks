@@ -1,26 +1,17 @@
-#lang racket
+#lang racket ; format.rkt
 
 (provide ~0 string-quote)
+(provide qq string-cat-macro)
 
-(define (~0 n) (~a #:width 2 #:left-pad-string "0" #:align 'right))
+(define (~0 n) (~a #:width 2 #:left-pad-string "0" #:align 'right n))
 (define (string-quote s)
   (format "~s" s))  
 
 
+(define-syntax-rule (string-cat-macro . strings)
+  ;;; Enter a long line of text as multiple lines of strings
+  (apply string-append strings))
 
-#|
-(require (only-in racket/date current-date) 
-(define date  (current-date))
-(displayln date)
+(define-syntax-rule (qq) string-cat-macro)
 
-(define tstamp (format "~a-~a-~a ~a:~a"
-                       (date-year date)
-                       (~0 (date-month date))
-                       (date-day date)
-                       (date-hour date)
-                       (date-minute date)))
-
-(displayln tstamp)
-
-|#
 
