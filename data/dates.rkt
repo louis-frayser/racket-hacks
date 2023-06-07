@@ -25,6 +25,8 @@
 ;; ..............................................................................................
 
 (define (fill-missing-dates date-data-list deflvalue #:start (sdate #f) #:end (edate #f))
+  (when (and (null? date-data-list) (nor sdate edate))
+    (error 'insufficient-instantiation "racket-hacks/data/dates.rkt: #'fill-missing-dates"))
   (let ((mts date-data-list)
         (start-date (or sdate (caar date-data-list)))
         (end-date (or edate (car (last date-data-list)))))
