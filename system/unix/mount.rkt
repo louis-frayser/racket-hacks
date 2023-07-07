@@ -19,8 +19,10 @@
 (define (get-mountpoints)
   (map mt_mpt (get-mounts)))
 
+;;; Return all mounts and submounts  beginning at given path
 (define (get-submounts abs-path)
-(filter (lambda(p)(string-prefix? p abs-path)) 
+  (define p-norm (string-trim abs-path "/" #:left? #f))
+(filter (lambda(p)(string-prefix? p p-norm)) 
      (get-mountpoints)))
 
 #;(get-submounts "/volumes/crypt")
