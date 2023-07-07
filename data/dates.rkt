@@ -1,9 +1,11 @@
 #lang racket ; dates.rkt
 
-(provide fill-missing-dates string-date-succ a-month-ago-str )
+(provide a-month-ago-str fill-missing-dates string-date-succ  
+         string->sql-interval string->sql-timestamp)
 
 (require (only-in srfi/19 string->date current-julian-day julian-day->date date->string))
 (require (only-in racket/date date->seconds))
+(require (only-in db sql-timestamp sql-interval))
 (require "../math.rkt")
          
 ;; ------------------------------------ string-date ---------------------------------------------
@@ -41,5 +43,16 @@
           ((string>? ckey nkey) (error 'internal-program "ckey is too large!"))
           (else (loop rest (string-date-succ ckey)  (cons (cons ckey deflvalue) acc))))
         ))))
+;; ..............................................................................................
+(define (string->sql-timestamp s)
+  (define l (map string->number (string-split s #px"[\\s|T|:-]+")))
+  (sql-timestamp (first l) (second l) (third l) (fourth l) (fifth l) 0 0 #f)) 
+
+(define (string->sql-interval s)
+  ;; Only for HH:MM 
+    (define l  (map string->number (string-split s #px"[\\s|T|:-]+")))
+  (if (not (= (length l) 2))
+      (error 'format-error "#'string->sql-interval: Hrs:Mins only") 
+      (sql-interval 0 0 0 (first l) (second l) 0 0 )))
 
 ;; ==============================================================================================
