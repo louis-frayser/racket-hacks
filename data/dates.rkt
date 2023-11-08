@@ -1,9 +1,10 @@
-#lang racket ; dates.rkt
+#lang debug racket ; dates.rkt
 
 (provide a-month-ago-str fill-missing-dates string-date-succ  
          string->sql-interval string->sql-timestamp)
 
-(require (only-in srfi/19 string->date current-julian-day julian-day->date date->string))
+(require (only-in srfi/19 string->date current-julian-day date->julian-day julian-day->date
+                  date->string))
 (require (only-in racket/date date->seconds))
 (require (only-in db sql-timestamp sql-interval))
 (require "../math.rkt")
@@ -11,10 +12,10 @@
 ;; ------------------------------------ string-date ---------------------------------------------
 ;; Return the next YYYY-MM-DD string
 (define (string-date-succ datestring)
-  (define secs/day (* 24 3600))
+
   (define (~0 n) (~a n #:left-pad-string "0" #:align 'right #:min-width 2))
   (let* ((d  (string->date datestring "~Y~m~d"))
-         (d2 (seconds->date (+ secs/day (date->seconds d)) )))
+         (d2 (julian-day->date (+ 1 (date->julian-day d)))))
     (format "~a-~a-~a" (date-year d2) (~0 (date-month d2))  (~0 (date-day d2)))))
 ;; ..............................................................................................
 
