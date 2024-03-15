@@ -5,7 +5,7 @@ default:
 update reinstall: uninstall install
 
 uninstall:
-	raco pkg remove -i racket-hacks
+	-raco pkg remove -i racket-hacks
 
 install:
 	su -c  "raco pkg install -i"
