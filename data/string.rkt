@@ -1,6 +1,6 @@
 #lang racket
 
-(provide strings->string unlines)
+(provide strings->string lines unlines)
 
 ;; A list of strings to a single string with each previous string  quoted
 (define (strings->string_0 ss) (apply string-append (map (lambda (s) (format " ~s " s)) ss)))
@@ -10,7 +10,8 @@
 
 (define strings->string strings->string_0)
 
-(define (unlines ss) (string-split ss "\n"))
+(define (lines ss) (string-split ss "\n"))
+(define (unlines ss)(string-join ss "\n"))
 
 ;; ==============================================================================================
 #;(strings->string '("abc" "def" "ghi"))
