@@ -3,7 +3,7 @@
 
 (require (only-in srfi/1 (take scm:take) (drop scm:drop) (take-right scm:take-right)))
 
-(provide drop take take-end)
+(provide drop take take-end flip)
 
 (define (take n xs)
   (if (> n  (length xs))
@@ -20,6 +20,8 @@
   (if (>= n (length xs))
       '()
       (scm:drop xs n)))
+
+(define (flip f) (lambda(x y)( f y x)))
 
 #|
 ;;; Tests
