@@ -9,5 +9,5 @@
                "base" ))
 
 #;(define build-deps '("racket-doc" "scribble-lib"))
-#;(define scribblings '(("scribblings/racket-hacks.scrbl" ())))
+(define scribblings '(("scribblings/racket-hacks.scrbl" ())))
 (define build-deps '("debug"))
