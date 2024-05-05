@@ -1,6 +1,6 @@
 #lang debug racket ; format.rkt
 
-(provide ~0 ~e ~si  string-quote)
+(provide ~$ ~0 ~e ~si  string-quote)
 (provide qq string-cat-macro)
 
 (define (~0 n) (~a #:width 2 #:left-pad-string "0" #:align 'right n))
@@ -14,6 +14,8 @@
 
 (define-syntax-rule (qq) string-cat-macro)
 
+(define (~$ amt #:precision (prec 2) #:min-with (minw 4))
+  (~r amt #:precision prec #:min-width minw))
 
 (define (~e number #:precision ( prec 0) #:min-width (minw 8))
   (define pwr  (floor (log number 10)))
