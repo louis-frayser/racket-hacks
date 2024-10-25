@@ -3,8 +3,12 @@
 (provide  cs-to-hms-str mins->time-string
          string-time->mins tstamp to-cs
          string-time+ string-time/ string-time-subtract string-time-mul string-time-div)
+(provide now-str get-ymd-string time-elapsed-hmm-str)
+;; ------------------------------------------------------------------------
+(require (only-in srfi/19 current-date date->string))
+
 (require (only-in srfi/1 car+cdr))
-(require (only-in racket/date current-date))
+(require (prefix-in rkt: racket/date))
 ;;====================================================================
 (define (~0 n) (~a #:width 2 #:left-pad-string "0" #:align 'right n))
 ;;====================================================================
@@ -89,4 +93,32 @@
   ;; Divide time 2 into time 1
   (apply /  (map string-time->mins `(,ts1 ,ts2))))                                  
                                   
+
+;;; ------------------------------------------------------------------------
+(define (time-elapsed-hmm-str (since-hmm "00:00"))
+  ;; Elapsed time since given time (same day)
+  (define now
+    (let*((d (rkt:current-date )) ; local mins since midnight localtime
+          (h (date-hour d))
+          (m (date-minute d)))
+      (+ (* h 60) m)))
+  (define  then
+    ((lambda()
+       (define hr-min-lst (map string->number (string-split since-hmm ":") ))
+       (let( (hrs (first hr-min-lst)) (mins (second hr-min-lst)) )
+         (+ (* hrs 60) mins)) )))
+  (let*-values ( ((hrs mins ) (quotient/remainder (-  now then) 60)) )
+    (string-join (map number->string `(,hrs ,mins)) ":")
+    (string-append
+     (~a hrs) ":" (~a mins #:width 2 #:align 'right #:left-pad-string "0"))))
+;; .......................................................................
+(define (now-hh-mm-str) (time-elapsed-hmm-str "00:00"))
+(define (now-str)  (string-append (get-ymd-string) "T" (now-hh-mm-str)))
+;; .......................................................................
+;;; Get date string for today
+(define get-ymd-string (lambda() (date->string (rkt:current-date) "~1")))
+
+
+
+
 

@@ -14,7 +14,7 @@
 
 (define-syntax-rule (qq) string-cat-macro)
 
-(define (~$ amt #:precision (prec 2) #:min-with (minw 4))
+(define (~$ amt #:precision (prec 2) #:min-width (minw 4))
   (~r amt #:precision prec #:min-width minw  #:group-sep ","))
 
 (define (~e number #:precision ( prec 0) #:min-width (minw 8))
