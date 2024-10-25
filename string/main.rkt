@@ -1,4 +1,4 @@
-;; main.rkt
+;; string/main.rkt
 #lang racket
 
 (provide string-max)
