@@ -8,7 +8,7 @@ uninstall:
 	-raco pkg remove -i racket-hacks
 
 install:
-	su -c  "raco pkg install -i"
+	su -c  "raco pkg install -i --auto"
 	chgrp -R conman .
 	find . -type d -exec chmod g+s {} +
 
