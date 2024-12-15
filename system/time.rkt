@@ -34,9 +34,9 @@
 
 (define (mins->time-string mins)
   (let*-values ( ((hrs mins ) (quotient/remainder (round mins) 60)) )
-    (string-join (map number->string `(,hrs ,mins)) ":")
+    #;(string-join (map number->string `(,hrs ,mins)) ":")
     (string-append
-     (~a hrs) ":" (~a mins #:width 2 #:align 'right #:left-pad-string "0"))))
+     (~0 hrs) ":" (~0 mins))))
 
 ;; to-cs :: String->String
 (define (to-cs hhmmsscs-str) ;;; HH:MM:SS.SS => centisecs
