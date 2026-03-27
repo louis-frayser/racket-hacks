@@ -1,6 +1,6 @@
 #lang racket ; format.rkt
 
-(provide ~$ ~0 ~e ~si  string-quote)
+(provide ~$ ~0 ~e ~j ~si  string-quote)
 (provide qq string-cat-macro)
 
 (define (~0 n) (~a #:width 2 #:left-pad-string "0" #:align 'right n))
@@ -23,8 +23,12 @@
   (define epwr  (inexact->exact (* epwr0 3)))
   (define mplr (expt 10 mplr0))
   (define base  (* (/ number (expt 10 pwr))  mplr))
-  (format "~ae~a"  (~r #:precision prec base #:min-width minw) epwr)
-  )
+  (format "~ae~a"  (~r #:precision prec base #:min-width minw) epwr))
+
+(define (~j n)
+  ;; format julian date ad 001..366 (leading 0's)
+  (~a #:width 3 #:align 'right n)) 
+
 
 (define (~si number #:precision ( prec 0) #:min-width (minw 8) )
   (define dict `((0 . "") (3 . "K") (6 . "M") (9 . "G") (12 . "T") 

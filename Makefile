@@ -5,12 +5,14 @@ default:
 update reinstall: uninstall install
 
 uninstall:
-	-raco pkg remove -i racket-hacks
+	-sudo raco pkg remove -i racket-hacks
 
 install:
 	su -c  "raco pkg install -i --auto"
-	chgrp -R conman .
+	sudo chown -R frayser:conman  .
 	find . -type d -exec chmod g+s {} +
+
+reinstall: uninstall install
 
 clean: 
 	@echo BACKUP
